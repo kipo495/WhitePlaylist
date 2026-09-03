@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Playlist Lock</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- ヘッダー -->
+    <header class="header">
+      <img src="../icons/icon48.png" alt="" class="header__icon" />
+      <h1 class="header__title">Playlist Lock</h1>
+    </header>
+
+    <!-- 制限トグル -->
+    <section class="section">
+      <button id="btn-toggle" class="btn btn--toggle" disabled>
+        読み込み中…
+      </button>
+    </section>
+
+    <!-- ホワイトリスト -->
+    <section class="section">
+      <h2 class="section__title">ホワイトリスト</h2>
+
+      <div id="list-container" class="playlist-list" aria-live="polite">
+        <p id="empty-message" class="empty-message">
+          保存されたリストはありません
+        </p>
+      </div>
+
+      <!-- 1行統合入力フォーム -->
+      <div class="input-bar">
+        <button id="btn-current-page" class="input-bar__btn-icon" title="現在のページの URL / ID を取得">
+          📍
+        </button>
+        <input
+          id="input-id"
+          class="input-bar__input"
+          type="text"
+          placeholder="URL または ID を入力..."
+          spellcheck="false"
+          autocomplete="off"
+        />
+        <button id="btn-add" class="input-bar__btn-add" title="リストを追加">
+          ＋ 追加
+        </button>
+      </div>
+    </section>
+
+    <!-- ステータス -->
+    <footer class="footer">
+      <span id="status-message" class="status" role="status"></span>
+    </footer>
+
+  </div>
+
+  <!-- スクリプトの読み込み順序 -->
+  <script src="../config.js"></script>
+  <script src="../utils/migration.js"></script>
+  <script src="../utils/playlist.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
