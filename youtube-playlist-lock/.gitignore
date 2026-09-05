@@ -1,0 +1,13 @@
+# Logs & Temporary files
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated
+[Dd]esktop.ini
