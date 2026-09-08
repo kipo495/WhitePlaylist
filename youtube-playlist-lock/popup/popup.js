@@ -12,22 +12,24 @@
 
   /** @type {Record<string, HTMLElement>} */
   const el = Object.freeze({
-    toggle        : document.getElementById('btn-toggle'),
+    toggle: document.getElementById('btn-toggle'),
+    toggleShorts: document.getElementById('btn-toggle-shorts'),
     btnCurrentPage: document.getElementById('btn-current-page'),
-    inputId       : document.getElementById('input-id'),
-    btnAdd        : document.getElementById('btn-add'),
-    listContainer : document.getElementById('list-container'),
-    emptyMessage  : document.getElementById('empty-message'),
-    status        : document.getElementById('status-message'),
+    inputId: document.getElementById('input-id'),
+    btnAdd: document.getElementById('btn-add'),
+    listContainer: document.getElementById('list-container'),
+    emptyMessage: document.getElementById('empty-message'),
+    status: document.getElementById('status-message'),
   });
 
   // ── 状態 ──────────────────────────────────────────────────────────────────
 
-  /** @type {{ isEnabled: boolean, playlists: Array<{id: string, title: string, addedAt: number}>, mode: string }} */
+  /** @type {{ isEnabled: boolean, blockShorts: boolean, playlists: Array<{id: string, title: string, addedAt: number}>, mode: string }} */
   let state = {
-    isEnabled : DEFAULTS.IS_ENABLED,
-    playlists : [],
-    mode      : DEFAULTS.MODE,
+    isEnabled: DEFAULTS.IS_ENABLED,
+    blockShorts: DEFAULTS.BLOCK_SHORTS,
+    playlists: [],
+    mode: DEFAULTS.MODE,
   };
 
   // ── 初期化 ────────────────────────────────────────────────────────────────
@@ -47,22 +49,21 @@
 
     const data = await chrome.storage.sync.get([
       STORAGE_KEYS.IS_ENABLED,
+      STORAGE_KEYS.BLOCK_SHORTS,
       STORAGE_KEYS.MODE,
     ]);
 
     state.isEnabled = data[STORAGE_KEYS.IS_ENABLED] ?? DEFAULTS.IS_ENABLED;
+    state.blockShorts = data[STORAGE_KEYS.BLOCK_SHORTS] ?? DEFAULTS.BLOCK_SHORTS;
     state.playlists = playlists;
-    state.mode      = data[STORAGE_KEYS.MODE]       ?? DEFAULTS.MODE;
+    state.mode = data[STORAGE_KEYS.MODE] ?? DEFAULTS.MODE;
 
     el.toggle.disabled = false;
+    if (el.toggleShorts) el.toggleShorts.disabled = false;
   }
 
   // ── 自動再フェッチ ────────────────────────────────────────────────────────
 
-  /**
-   * タイトルが未取得（*** や IDと同値、または空）の項目を検出し、
-   * バックグラウンドで oEmbed 再フェッチを実行する
-   */
   async function autoRefetchMissingTitles() {
     const pendingItems = state.playlists.filter(
       (p) => !p.title || p.title === '***' || p.title === p.id
@@ -97,10 +98,11 @@
     const playlistIds = state.playlists.map((p) => p.id);
 
     await chrome.storage.sync.set({
-      [STORAGE_KEYS.IS_ENABLED]   : state.isEnabled,
-      [STORAGE_KEYS.PLAYLISTS]    : state.playlists,
-      [STORAGE_KEYS.PLAYLIST_IDS] : playlistIds,
-      [STORAGE_KEYS.MODE]         : state.mode,
+      [STORAGE_KEYS.IS_ENABLED]: state.isEnabled,
+      [STORAGE_KEYS.BLOCK_SHORTS]: state.blockShorts,
+      [STORAGE_KEYS.PLAYLISTS]: state.playlists,
+      [STORAGE_KEYS.PLAYLIST_IDS]: playlistIds,
+      [STORAGE_KEYS.MODE]: state.mode,
     });
 
     await notifyActiveTab();
@@ -112,19 +114,21 @@
     const playlistIds = state.playlists.map((p) => p.id);
 
     chrome.tabs.sendMessage(tab.id, {
-      type    : MSG_TYPES.STATE_CHANGED,
-      payload : {
-        isEnabled   : state.isEnabled,
-        playlistIds : playlistIds,
-        mode        : state.mode,
+      type: MSG_TYPES.STATE_CHANGED,
+      payload: {
+        isEnabled: state.isEnabled,
+        blockShorts: state.blockShorts,
+        playlistIds: playlistIds,
+        mode: state.mode,
       },
-    }).catch(() => {});
+    }).catch(() => { });
   }
 
   // ── イベントバインド ──────────────────────────────────────────────────────
 
   function bindEvents() {
     el.toggle.addEventListener('click', onToggleClick);
+    if (el.toggleShorts) el.toggleShorts.addEventListener('click', onToggleShortsClick);
     el.btnCurrentPage.addEventListener('click', onCurrentPageClick);
     el.btnAdd.addEventListener('click', onAddClick);
     el.inputId.addEventListener('keydown', (e) => {
@@ -132,13 +136,24 @@
     });
   }
 
-  /** 制限トグルボタン押下 */
+  /** 通常動画の制限トグルボタン押下 */
   async function onToggleClick() {
     state.isEnabled = !state.isEnabled;
     renderToggle();
     await saveState();
     showStatus(
       state.isEnabled ? '🔒 制限を有効にしました' : '🔓 制限を解除しました',
+      'success'
+    );
+  }
+
+  /** Shorts ブロックのトグルボタン押下 */
+  async function onToggleShortsClick() {
+    state.blockShorts = !state.blockShorts;
+    renderToggleShorts();
+    await saveState();
+    showStatus(
+      state.blockShorts ? '📱 Shorts をブロック対象に設定しました' : '📱 Shorts を許可設定にしました',
       'success'
     );
   }
@@ -180,11 +195,10 @@
       return;
     }
 
-    // 初表示用に一時的に '***' で登録
     const newItem = {
-      id      : listId,
-      title   : '***',
-      addedAt : Date.now(),
+      id: listId,
+      title: '***',
+      addedAt: Date.now(),
     };
 
     state.playlists = [...state.playlists, newItem];
@@ -192,7 +206,6 @@
     el.inputId.value = '';
     showStatus('タイトルを取得中...', '');
 
-    // アクティブタブのタイトル活用 または oEmbed fetch
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       let fetchedTitle = null;
@@ -227,10 +240,6 @@
     await saveState();
   }
 
-  /**
-   * 指定したプレイリストのタイトルを単体で再フェッチする
-   * @param {string} listId
-   */
   async function onRefetchClick(listId) {
     const item = state.playlists.find((p) => p.id === listId);
     if (!item) return;
@@ -253,7 +262,6 @@
     }
   }
 
-  /** 削除ボタン押下 */
   async function onDeleteClick(listId) {
     state.playlists = state.playlists.filter((p) => p.id !== listId);
     renderList();
@@ -261,14 +269,12 @@
     showStatus('削除しました', 'success');
   }
 
-  // ── ステータス表示 ────────────────────────────────────────────────────────
-
   function showStatus(message, type) {
     el.status.textContent = message;
-    el.status.className   = `status${type ? ` ${type}` : ''}`;
+    el.status.className = `status${type ? ` ${type}` : ''}`;
     setTimeout(() => {
       el.status.textContent = '';
-      el.status.className   = 'status';
+      el.status.className = 'status';
     }, 2500);
   }
 
@@ -276,14 +282,23 @@
 
   function renderAll() {
     renderToggle();
+    renderToggleShorts();
     renderList();
   }
 
   function renderToggle() {
     el.toggle.textContent = state.isEnabled
-      ? '🔒 制限中 — クリックで解除'
-      : '🔓 制限なし — クリックで有効化';
+      ? '🔒 動画ブロック: 有効'
+      : '🔓 動画ブロック: 無効';
     el.toggle.classList.toggle('is-enabled', state.isEnabled);
+  }
+
+  function renderToggleShorts() {
+    if (!el.toggleShorts) return;
+    el.toggleShorts.textContent = state.blockShorts
+      ? '📱 Shortsブロック: 有効'
+      : '📱 Shortsブロック: 無効';
+    el.toggleShorts.classList.toggle('is-enabled', state.blockShorts);
   }
 
   function renderList() {
@@ -299,49 +314,40 @@
     });
   }
 
-  /**
-   * プレイリストアイテム要素を生成（2段表示: タイトル ＋ ID）
-   * @param {{id: string, title: string}} itemData
-   * @returns {HTMLDivElement}
-   */
   function createListItem(itemData) {
     const item = document.createElement('div');
     item.className = 'playlist-item';
 
-    // 情報エリア (タイトル ＋ ID)
     const infoDiv = document.createElement('div');
     infoDiv.className = 'playlist-item__info';
 
     const titleSpan = document.createElement('span');
-    titleSpan.className   = 'playlist-item__title';
+    titleSpan.className = 'playlist-item__title';
     titleSpan.textContent = itemData.title || '***';
-    titleSpan.title       = itemData.title || '***';
+    titleSpan.title = itemData.title || '***';
 
     const idSpan = document.createElement('span');
-    idSpan.className   = 'playlist-item__id';
+    idSpan.className = 'playlist-item__id';
     idSpan.textContent = itemData.id;
-    idSpan.title       = itemData.id;
+    idSpan.title = itemData.id;
 
     infoDiv.appendChild(titleSpan);
     infoDiv.appendChild(idSpan);
 
-    // アクションエリア (再取得 ＋ 開く ＋ 削除)
     const actionsDiv = document.createElement('div');
     actionsDiv.className = 'playlist-item__actions';
 
-    // 再取得 (リトライ) ボタン
     const refetchBtn = document.createElement('button');
-    refetchBtn.className   = 'playlist-item__refetch';
+    refetchBtn.className = 'playlist-item__refetch';
     refetchBtn.textContent = '↻';
-    refetchBtn.title       = 'タイトルを再取得';
+    refetchBtn.title = 'タイトルを再取得';
     refetchBtn.setAttribute('aria-label', `${itemData.id} のタイトルを再取得`);
     refetchBtn.addEventListener('click', () => onRefetchClick(itemData.id));
 
-    // YouTube で開く ボタン
     const openBtn = document.createElement('button');
-    openBtn.className   = 'playlist-item__open';
+    openBtn.className = 'playlist-item__open';
     openBtn.textContent = '↗';
-    openBtn.title       = 'YouTube で開く';
+    openBtn.title = 'YouTube で開く';
     openBtn.setAttribute('aria-label', `${itemData.title} を YouTube で開く`);
     openBtn.addEventListener('click', () => {
       chrome.tabs.create({
@@ -349,11 +355,10 @@
       });
     });
 
-    // 削除 ボタン
     const deleteBtn = document.createElement('button');
-    deleteBtn.className   = 'playlist-item__delete';
+    deleteBtn.className = 'playlist-item__delete';
     deleteBtn.textContent = '×';
-    deleteBtn.title       = '削除';
+    deleteBtn.title = '削除';
     deleteBtn.setAttribute('aria-label', `${itemData.title} を削除`);
     deleteBtn.addEventListener('click', () => onDeleteClick(itemData.id));
 

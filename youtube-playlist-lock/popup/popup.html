@@ -22,11 +22,14 @@
       <button id="btn-toggle" class="btn btn--toggle" disabled>
         読み込み中…
       </button>
+      <button id="btn-toggle-shorts" class="btn btn--toggle" disabled>
+        読み込み中…
+      </button>
     </section>
 
     <!-- ホワイトリスト -->
     <section class="section">
-      <h2 class="section__title">ホワイトリスト</h2>
+      <h2 class="section__title">ホワイトプレイリスト</h2>
 
       <div id="list-container" class="playlist-list" aria-live="polite">
         <p id="empty-message" class="empty-message">
@@ -39,14 +42,8 @@
         <button id="btn-current-page" class="input-bar__btn-icon" title="現在のページの URL / ID を取得">
           📍
         </button>
-        <input
-          id="input-id"
-          class="input-bar__input"
-          type="text"
-          placeholder="URL または ID を入力..."
-          spellcheck="false"
-          autocomplete="off"
-        />
+        <input id="input-id" class="input-bar__input" type="text" placeholder="URL または ID を入力..." spellcheck="false"
+          autocomplete="off" />
         <button id="btn-add" class="input-bar__btn-add" title="リストを追加">
           ＋ 追加
         </button>

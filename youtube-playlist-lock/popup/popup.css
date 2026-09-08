@@ -6,335 +6,343 @@
 /* ── カスタムプロパティ ──────────────────────────────────────────────────── */
 
 :root {
-  --color-bg         : #0f0f0f;
-  --color-surface    : #1f1f1f;
-  --color-surface-hv : #2a2a2a;
-  --color-border     : #3d3d3d;
-  --color-text       : #f1f1f1;
-  --color-muted      : #aaaaaa;
-  --color-enabled    : #e53935;
-  --color-enabled-hv : #c62828;
-  --color-success    : #66bb6a;
-  --color-error      : #ef5350;
+  --color-bg: #0f0f0f;
+  --color-surface: #1f1f1f;
+  --color-surface-hv: #2a2a2a;
+  --color-border: #3d3d3d;
+  --color-text: #f1f1f1;
+  --color-muted: #aaaaaa;
+  --color-enabled: #e53935;
+  --color-enabled-hv: #c62828;
+  --color-success: #66bb6a;
+  --color-error: #ef5350;
 
-  --radius    : 8px;
-  --radius-sm : 4px;
-  --font      : 'YouTube Noto', Roboto, Arial, sans-serif;
+  --radius: 8px;
+  --radius-sm: 4px;
+  --font: 'YouTube Noto', Roboto, Arial, sans-serif;
 
-  --transition-fast : 0.15s ease;
+  --transition-fast: 0.15s ease;
 }
 
 /* ── リセット ────────────────────────────────────────────────────────────── */
 
-*, *::before, *::after {
-  margin     : 0;
-  padding    : 0;
-  box-sizing : border-box;
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* ── ボディ・コンテナ ─────────────────────────────────────────────────────── */
 
 body {
-  width            : 320px;
-  background-color : var(--color-bg);
-  color            : var(--color-text);
-  font-family      : var(--font);
-  font-size        : 13px;
-  line-height      : 1.4;
+  width: 320px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .container {
-  display        : flex;
-  flex-direction : column;
-  gap            : 14px;
-  padding        : 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
 }
 
 /* ── ヘッダー ─────────────────────────────────────────────────────────────── */
 
 .header {
-  display     : flex;
-  align-items : center;
-  gap         : 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .header__icon {
-  width         : 28px;
-  height        : 28px;
-  border-radius : var(--radius-sm);
-  flex-shrink   : 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
 }
 
 .header__title {
-  font-size      : 16px;
-  font-weight    : 700;
-  letter-spacing : -0.02em;
-  color          : var(--color-text);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
 }
 
 /* ── セクション ──────────────────────────────────────────────────────────── */
 
 .section {
-  display        : flex;
-  flex-direction : column;
-  gap            : 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .section__title {
-  font-size      : 10px;
-  font-weight    : 600;
-  color          : var(--color-muted);
-  text-transform : uppercase;
-  letter-spacing : 0.08em;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 /* ── ボタン基底 ──────────────────────────────────────────────────────────── */
 
 .btn {
-  width         : 100%;
-  padding       : 10px 16px;
-  border        : none;
-  border-radius : var(--radius);
-  font-family   : var(--font);
-  font-size     : 13px;
-  font-weight   : 600;
-  cursor        : pointer;
-  transition    : background-color var(--transition-fast),
-                  filter          var(--transition-fast),
-                  opacity         var(--transition-fast);
-  text-align    : center;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast),
+    filter var(--transition-fast),
+    opacity var(--transition-fast);
+  text-align: center;
 }
 
 .btn:disabled {
-  opacity : 0.45;
-  cursor  : not-allowed;
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 /* ── トグルボタン ─────────────────────────────────────────────────────────── */
 
 .btn--toggle {
-  background-color : var(--color-surface);
-  color            : var(--color-text);
-  font-size        : 14px;
-  padding          : 13px 16px;
-  border           : 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: 14px;
+  padding: 10px 16px;
+  border: 1px solid var(--color-border);
 }
 
 .btn--toggle.is-enabled {
-  background-color : var(--color-enabled);
-  border-color     : transparent;
+  background-color: var(--color-enabled);
+  border-color: transparent;
 }
 
 .btn--toggle:not(:disabled):hover {
-  filter : brightness(1.18);
+  filter: brightness(1.18);
 }
 
 .btn--toggle:not(:disabled):active {
-  filter : brightness(0.9);
+  filter: brightness(0.9);
 }
 
 /* ── 1行統合入力バー (Input Bar) ────────────────────────────────────────────── */
 
 .input-bar {
-  display          : flex;
-  align-items      : center;
-  background-color : var(--color-surface);
-  border           : 1px solid var(--color-border);
-  border-radius    : var(--radius);
-  overflow         : hidden;
-  transition       : border-color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
 }
 
 .input-bar:focus-within {
-  border-color : #3ea6ff; /* YouTube Blue Accent */
+  border-color: #3ea6ff;
+  /* YouTube Blue Accent */
 }
 
 .input-bar__btn-icon {
-  background  : none;
-  border      : none;
-  color       : var(--color-muted);
-  padding     : 8px 10px;
-  cursor      : pointer;
-  font-size   : 14px;
-  display     : flex;
-  align-items : center;
-  justify-content : center;
-  transition  : color var(--transition-fast), background-color var(--transition-fast);
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .input-bar__btn-icon:hover {
-  color            : var(--color-text);
-  background-color : var(--color-surface-hv);
+  color: var(--color-text);
+  background-color: var(--color-surface-hv);
 }
 
 .input-bar__input {
-  flex             : 1;
-  background       : transparent;
-  border           : none;
-  outline          : none;
-  color            : var(--color-text);
-  font-family      : var(--font);
-  font-size        : 12px;
-  padding          : 8px 4px;
-  min-width        : 0;
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font);
+  font-size: 12px;
+  padding: 8px 4px;
+  min-width: 0;
 }
 
 .input-bar__input::placeholder {
-  color   : #717171;
-  opacity : 1;
+  color: #717171;
+  opacity: 1;
 }
 
 .input-bar__btn-add {
-  background-color : #272727;
-  border           : none;
-  border-left      : 1px solid var(--color-border);
-  color            : var(--color-text);
-  font-family      : var(--font);
-  font-size        : 12px;
-  font-weight      : 600;
-  padding          : 9px 12px;
-  cursor           : pointer;
-  white-space      : nowrap;
-  transition       : background-color var(--transition-fast);
+  background-color: #272727;
+  border: none;
+  border-left: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 9px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast);
 }
 
 .input-bar__btn-add:hover {
-  background-color : var(--color-surface-hv);
-  color            : #3ea6ff;
+  background-color: var(--color-surface-hv);
+  color: #3ea6ff;
 }
 
 /* ── プレイリスト一覧 ─────────────────────────────────────────────────────── */
 
 .playlist-list {
-  display        : flex;
-  flex-direction : column;
-  gap            : 6px;
-  max-height     : 220px;
-  overflow-y     : auto;
-  min-height     : 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  min-height: 32px;
 }
 
 .empty-message {
-  color      : var(--color-muted);
-  font-size  : 12px;
-  text-align : center;
-  padding    : 10px 0;
+  color: var(--color-muted);
+  font-size: 12px;
+  text-align: center;
+  padding: 10px 0;
 }
 
 /* ── プレイリストアイテム ─────────────────────────────────────────────────── */
 
 .playlist-item {
-  display          : flex;
-  align-items      : center;
-  justify-content  : space-between;
-  gap              : 8px;
-  background-color : var(--color-surface);
-  border           : 1px solid var(--color-border);
-  border-radius    : var(--radius-sm);
-  padding          : 8px 10px;
-  transition       : border-color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  transition: border-color var(--transition-fast);
 }
 
 .playlist-item:hover {
-  border-color : var(--color-muted);
+  border-color: var(--color-muted);
 }
 
 .playlist-item__info {
-  display        : flex;
-  flex-direction : column;
-  gap            : 2px;
-  flex           : 1;
-  min-width      : 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
 .playlist-item__title {
-  font-size      : 12px;
-  font-weight    : 600;
-  color          : var(--color-text);
-  overflow       : hidden;
-  text-overflow  : ellipsis;
-  white-space    : nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .playlist-item__id {
-  font-size     : 10px;
-  font-family   : monospace;
-  color         : var(--color-muted);
-  overflow      : hidden;
-  text-overflow : ellipsis;
-  white-space   : nowrap;
+  font-size: 10px;
+  font-family: monospace;
+  color: var(--color-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .playlist-item__actions {
-  display     : flex;
-  align-items : center;
-  gap         : 4px;
-  flex-shrink : 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .playlist-item__refetch {
-  background    : none;
-  border        : none;
-  color         : var(--color-muted);
-  cursor        : pointer;
-  font-size     : 13px;
-  line-height   : 1;
-  padding       : 4px;
-  border-radius : var(--radius-sm);
-  transition    : color var(--transition-fast), background-color var(--transition-fast);
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .playlist-item__refetch:hover {
-  color            : #3ea6ff;
-  background-color : var(--color-surface-hv);
+  color: #3ea6ff;
+  background-color: var(--color-surface-hv);
 }
 
 .playlist-item__open {
-  background    : none;
-  border        : none;
-  color         : var(--color-muted);
-  cursor        : pointer;
-  font-size     : 14px;
-  line-height   : 1;
-  padding       : 4px;
-  border-radius : var(--radius-sm);
-  transition    : color var(--transition-fast), background-color var(--transition-fast);
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .playlist-item__open:hover {
-  color            : var(--color-text);
-  background-color : var(--color-surface-hv);
+  color: var(--color-text);
+  background-color: var(--color-surface-hv);
 }
 
 .playlist-item__delete {
-  background    : none;
-  border        : none;
-  color         : var(--color-muted);
-  cursor        : pointer;
-  font-size     : 16px;
-  line-height   : 1;
-  padding       : 4px;
-  border-radius : var(--radius-sm);
-  transition    : color var(--transition-fast), background-color var(--transition-fast);
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .playlist-item__delete:hover {
-  color            : var(--color-error);
-  background-color : var(--color-surface-hv);
+  color: var(--color-error);
+  background-color: var(--color-surface-hv);
 }
 
 /* ── フッター / ステータス ───────────────────────────────────────────────── */
 
 .footer {
-  min-height : 16px;
-  text-align : center;
+  min-height: 16px;
+  text-align: center;
 }
 
 .status {
-  font-size  : 11px;
-  color      : var(--color-muted);
-  transition : color 0.3s;
+  font-size: 11px;
+  color: var(--color-muted);
+  transition: color 0.3s;
 }
 
-.status.success { color : var(--color-success); }
-.status.error   { color : var(--color-error);   }
+.status.success {
+  color: var(--color-success);
+}
+
+.status.error {
+  color: var(--color-error);
+}

@@ -12,6 +12,7 @@
     PLAYLISTS    : 'playlists',
     PLAYLIST_IDS : 'playlistIds',
     IS_ENABLED   : 'isEnabled',
+    BLOCK_SHORTS : 'blockShorts',
     MODE         : 'mode',
   }),
 
@@ -32,6 +33,7 @@
 
   DEFAULTS: Object.freeze({
     IS_ENABLED   : false,
+    BLOCK_SHORTS : false,
     PLAYLISTS    : [],
     PLAYLIST_IDS : [],
     MODE         : 'whitelist',
@@ -91,5 +93,6 @@
     TITLE    : '再生がブロックされています',
     SUBTITLE_WHITELIST : 'このプレイリストは許可されていません',
     SUBTITLE_BLACKLIST : 'このプレイリストはブロックされています',
+    SUBTITLE_SHORTS    : 'Shorts の再生はブロックされています',
   }),
 });
