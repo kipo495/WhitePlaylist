@@ -1,6 +1,6 @@
 # YouTube Playlist Lock
 
-指定した再生リスト以外の YouTube 動画（通常動画および Shorts）の再生を制限・ロックする Manifest V3 対応の Chrome 拡張機能です。
+This is a Chrome extension that restricts and locks the playback of YouTube videos other than those in a specified playlist.
 
 ---
 
@@ -42,11 +42,12 @@ youtube-playlist-lock/
 
 ## installation
 
-### A.developper mode
 1. clone this repo
 2. open `chrome://extensions` on chrome
 3. turn on **developper mode** up-right
 4. click **load unpackeged extencions**, then select the directory you cloned this repo
+
+or just install it from [chrome store](https://chromewebstore.google.com/detail/hdkdjoplkaofbniiafoimghlmjihbgbp?utm_source=item-share-cb)
 
 ---
 
@@ -54,9 +55,9 @@ youtube-playlist-lock/
 
 1. open the page of playlists you want to allow access to or have the playlist ID (which is in the URL) ready.
 2. click the icon of the extencion and show popup
-3. click **📍** to input the url of current tab
+3. click 📍 to input the url of current tab
 4. click **+** to add the playlist
-5. click the btn with **🔒** to enable white playlists, click the btn with **📱** to block all shorts
+5. click the btn with 🔒 to enable white playlists, click the btn with **📱** to block all shorts
 
 ---
 
@@ -64,3 +65,4 @@ youtube-playlist-lock/
 
 - clone this repo and toggle devlopper mode on extencion page and load the extencion
 - right-click on the icon and select **see inspects of the popup**
+- care separation of functions, utils to utils
