@@ -1,21 +1,18 @@
-# YouTube Playlist Lock 🔒
+# YouTube Playlist Lock
 
 指定した再生リスト以外の YouTube 動画（通常動画および Shorts）の再生を制限・ロックする Manifest V3 対応の Chrome 拡張機能です。
 
 ---
 
-## 🌟 主な特徴
+## main functions
 
-- 🔒 **ホワイトリスト制限**: 許可した再生リスト（`list=` パラメータ）以外の通常動画再生を即座にポーズ＆専用オーバーレイでブロック。
-- 📱 **Shorts 独立制御**: 通常動画の制限とは独立して「Shorts ブロック」をオン/オフ切り替え可能。
-- 🎵 **再生リストタイトルの自動取得**: 公式 oEmbed API を利用して、APIキー不要で再生リスト名を自動取得・2段表示。
-- 🛡️ **強固なすり抜け防止**: `play` / `playing` イベントフック ＋ `MutationObserver` ＋ 定期ループの三重ガードで再生のすり抜けを防止。
-- ⚡ **スマートな 1行UI**: URL貼り付け、ID直入力、現在表示中ページのワンタップ追加に対応した直感的なポップアップ。
-- 📦 **リストの入出力**: プレイリスト ID を JSON ファイルとしてエクスポート・インポート可能。
+- **white playlists**: main function of this extencion.
+- **shorts block**: sub position
+- **import/export playlists**: JSON files
 
 ---
 
-## 📁 ディレクトリ構造
+## directory
 
 ```text
 youtube-playlist-lock/
@@ -43,41 +40,27 @@ youtube-playlist-lock/
 
 ---
 
-## 🚀 インストール方法 (開発者モード)
+## installation
 
-1. このリポジトリをローカルにクローンまたはダウンロードします。
-2. Chrome ブラウザを開き、アドレスバーに `chrome://extensions` と入力して移動します。
-3. 画面右上にある **「デベロッパーモード」** をオンにします。
-4. 画面左上の **「パッケージ化されていない拡張機能を読み込む」** をクリックし、`youtube-playlist-lock` フォルダを選択します。
-
----
-
-## 📖 使い方
-
-1. 許可したい YouTube 再生リストのページを開くか、再生リストの URL / ID を用意します。
-2. 拡張機能のアイコンをクリックしてポップアップを開きます。
-3. **「📍」ボタン** を押すと現在ページの URL が自動補完されます（手動入力・ペーストも可能）。
-4. **「＋ 追加」** ボタンを押すとリストに登録され、自動的にタイトルが取得されます。
-5. 上部の **「🔒 通常動画制限」** ボタンで通常動画制限を有効化し、**「📱 Shorts ブロック」** ボタンで Shorts の一括ブロックを独立して切り替えます。
+### A.developper mode
+1. clone this repo
+2. open `chrome://extensions` on chrome
+3. turn on **developper mode** up-right
+4. click **load unpackeged extencions**, then select the directory you cloned this repo
 
 ---
 
-## 🛠️ デバッグ・開発手順
+## how to use
 
-### 1. ページ判定・Shorts判定ログの確認 (`[YPL Page Log]`)
-YouTube ページ上で `F12` (DevTools) を開き、**Console** タブを確認します。
-- `[YPL Page Log]` で、URL判定、`isWatch` / `isShorts` の評価結果、ブロックの判断理由（Reason）を確認できます。
-
-### 2. 動画再生ブロック / すり抜けのログ確認 (`[YPL Pause Log]`)
-- `[YPL Pause Log]` でポーズ処理の実行タイミング、対象要素、イベントソースを確認できます。
-
-### 3. ポップアップのログ確認 (`[YPL Log]`)
-1. 拡張機能アイコンをクリックしてポップアップを表示します。
-2. ポップアップ内で **右クリック →「検証 (Inspect)」** を選択します。
-3. 開いた DevTools の Console タブで `[YPL Log]` を確認します。
+1. open the page of playlists you want to allow access to or have the playlist ID (which is in the URL) ready.
+2. click the icon of the extencion and show popup
+3. click **📍** to input the url of current tab
+4. click **+** to add the playlist
+5. click the btn with **🔒** to enable white playlists, click the btn with **📱** to block all shorts
 
 ---
 
-## 📜 ライセンス
+## debug and dev
 
-MIT License
+- clone this repo and toggle devlopper mode on extencion page and load the extencion
+- right-click on the icon and select **see inspects of the popup**
