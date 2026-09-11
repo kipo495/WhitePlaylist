@@ -135,6 +135,22 @@ body {
   filter: brightness(0.9);
 }
 
+.list-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn--secondary {
+  flex: 1;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-surface-hv);
+}
+
 /* ── 1行統合入力バー (Input Bar) ────────────────────────────────────────────── */
 
 .input-bar {

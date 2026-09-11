@@ -50,6 +50,16 @@
       </div>
     </section>
 
+    <!-- リストの入出力 -->
+    <section class="section section--actions">
+      <h2 class="section__title">リストの入出力</h2>
+      <div class="list-actions">
+        <button id="btn-import" class="btn btn--secondary" type="button">インポート</button>
+        <button id="btn-export" class="btn btn--secondary" type="button">エクスポート</button>
+        <input id="import-file" type="file" accept="application/json,.json" hidden />
+      </div>
+    </section>
+
     <!-- ステータス -->
     <footer class="footer">
       <span id="status-message" class="status" role="status"></span>
@@ -61,6 +71,7 @@
   <script src="../config.js"></script>
   <script src="../utils/migration.js"></script>
   <script src="../utils/playlist.js"></script>
+  <script src="../utils/import_export_lists.js"></script>
   <script src="popup.js"></script>
 </body>
 

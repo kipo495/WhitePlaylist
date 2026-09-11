@@ -11,6 +11,7 @@
 - 🎵 **再生リストタイトルの自動取得**: 公式 oEmbed API を利用して、APIキー不要で再生リスト名を自動取得・2段表示。
 - 🛡️ **強固なすり抜け防止**: `play` / `playing` イベントフック ＋ `MutationObserver` ＋ 定期ループの三重ガードで再生のすり抜けを防止。
 - ⚡ **スマートな 1行UI**: URL貼り付け、ID直入力、現在表示中ページのワンタップ追加に対応した直感的なポップアップ。
+- 📦 **リストの入出力**: プレイリスト ID を JSON ファイルとしてエクスポート・インポート可能。
 
 ---
 
@@ -32,7 +33,8 @@ youtube-playlist-lock/
 │   └── popup.css              # ダークモードスタイリング
 ├── utils/
 │   ├── migration.js           # 旧データ形式からの自動マイグレーション処理
-│   └── playlist.js            # IDパース & oEmbed タイトル取得ユーティリティ
+│   ├── playlist.js            # IDパース & oEmbed タイトル取得ユーティリティ
+│   └── import_export_lists.js # プレイリスト ID の JSON 入出力
 └── icons/                     # 拡張機能用アイコン画像
     ├── icon16.png
     ├── icon48.png

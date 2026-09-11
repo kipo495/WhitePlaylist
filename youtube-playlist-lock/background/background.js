@@ -55,7 +55,7 @@ chrome.storage.onChanged.addListener((_changes, area) => {
  * @param {number} tabId
  */
 async function updateBadge(tabId) {
-  const data      = await chrome.storage.sync.get(STORAGE_KEYS.IS_ENABLED);
+  const data = await chrome.storage.sync.get(STORAGE_KEYS.IS_ENABLED);
   const isEnabled = data[STORAGE_KEYS.IS_ENABLED] ?? DEFAULTS.IS_ENABLED;
 
   if (isEnabled) {

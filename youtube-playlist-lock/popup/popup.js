@@ -17,6 +17,9 @@
     btnCurrentPage: document.getElementById('btn-current-page'),
     inputId: document.getElementById('input-id'),
     btnAdd: document.getElementById('btn-add'),
+    btnExport: document.getElementById('btn-export'),
+    btnImport: document.getElementById('btn-import'),
+    importFile: document.getElementById('import-file'),
     listContainer: document.getElementById('list-container'),
     emptyMessage: document.getElementById('empty-message'),
     status: document.getElementById('status-message'),
@@ -131,9 +134,44 @@
     if (el.toggleShorts) el.toggleShorts.addEventListener('click', onToggleShortsClick);
     el.btnCurrentPage.addEventListener('click', onCurrentPageClick);
     el.btnAdd.addEventListener('click', onAddClick);
+    el.btnExport.addEventListener('click', onExportClick);
+    el.btnImport.addEventListener('click', () => el.importFile.click());
+    el.importFile.addEventListener('change', onImportFileChange);
     el.inputId.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') onAddClick();
     });
+  }
+
+  async function onExportClick() {
+    try {
+      await window.YPL_ImportExport.exportLists(state.playlists.map((p) => p.id));
+      showStatus('エクスポートを開始しました ✓', 'success');
+    } catch (error) {
+      console.error('[YPL Log] Export failed:', error);
+      showStatus(`エクスポートエラー: ${error.message}`, 'error');
+    }
+  }
+
+  async function onImportFileChange() {
+    const [file] = el.importFile.files;
+    el.importFile.value = '';
+    if (!file) return;
+
+    try {
+      const playlistIds = await window.YPL_ImportExport.importLists(file);
+      state.playlists = playlistIds.map((id) => ({
+        id,
+        title: id,
+        addedAt: Date.now(),
+      }));
+      renderList();
+      await saveState();
+      showStatus(`${playlistIds.length} 件のリストをインポートしました ✓`, 'success');
+      autoRefetchMissingTitles();
+    } catch (error) {
+      console.error('[YPL Log] Import failed:', error);
+      showStatus(`インポートエラー: ${error.message}`, 'error');
+    }
   }
 
   /** 通常動画の制限トグルボタン押下 */
